@@ -1,0 +1,76 @@
+{% extends 'base_home.html' %}
+{% load static %}
+{% block bodycontent %}
+{% load crispy_forms_tags %}
+
+<section id="posts" class="posts">
+    <div class="container" data-aos="fade-up">
+        <div class="post-meta"></div>
+        <div class="post-meta" style="text-align: justify; font-weight: bold; font-size: larger;">{{news.title}}</div>
+        <div><br></div>
+        <div class="post-meta"><img src="{{news.image.url}}" alt="" class="img-fluid"></div>
+        <div><br></div>
+        <div class="post-meta" style="text-align: justify; float: right;">&emsp; {{news.description}}</div>
+        <div><br></div>
+        <div class="post-meta">Type: {{news.get_news_type_display}}</div>
+        <div class="post-meta">Date: {{news.date}}</div>
+        <div><br></div>
+        {% if comments %}
+          <div style="color:rgb(77, 60, 17); font-size: 17px;">Comments</div>
+            {% for comment in comments %}
+             <div><br></div>
+             <div class="card-body">
+              <div class="d-flex flex-start align-items-center">
+                {% if comment.owner.profile.image %}
+                <img class="rounded-circle shadow-1-strong me-3" 
+                src="{{comment.owner.profile.image.url}}" 
+                alt="avatar" width="60" height="60">
+                {%else%}
+                <img class="rounded-circle shadow-1-strong me-3" 
+                src="{% static '/assets/img/pp.jpg' %}" 
+                alt="avatar" width="60" height="60">
+                {%endif%}
+                <div>
+                  <h6 class="fw-bold text-primary mb-1">{{comment.owner.first_name}} {{comment.owner.last_name}}</h6>
+                </div>
+              </div>
+              <div><br></div>
+              <div class="comment-body"  style="color: rgb(48, 39, 7);">
+                {{comment.text}}
+              </div>
+              <div><br></div>
+            {% endfor %}
+        {% endif %}
+
+        {% if request.user.is_authenticated %}
+      <form action="{% url 'create_comment' %}" method="POST">
+          {% csrf_token %}
+          <label for="{{ comment_form.text.id }}" style="display: none;">Text:</label>
+          {{ comment_form.text }}
+          <input type="hidden" value="{{ news.id }}" name="news" />
+          <div><br></div>
+          <button type="submit" class="button-74">Post comment</button>
+      </form>
+      {% endif %}
+    </div>
+    </div>
+    
+</section> <!-- End Post Grid Section -->
+
+<script>
+  function updateDateTime() {
+  const datetimeElement = document.getElementById('datetime');
+  const now = new Date();
+  const options = { weekday: 'short', year: 'numeric', month: 'numeric', day: 'numeric' };
+  const formattedDate = now.toLocaleDateString('en-US', options);
+  datetimeElement.textContent = formattedDate;
+  }
+
+  // Initial call to set the date and time
+  updateDateTime();
+
+  // Update the date and time every second
+  setInterval(updateDateTime, 1000);
+  </script>
+
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'base_home.html' %}
+{% load static %}
+{% block bodycontent %}
+{% load crispy_forms_tags %}
+
+    <link href="{% static 'assets/css/profile.css' %}" rel="stylesheet">
+
+    <section class="section about-section gray-bg" id="about">
+        <div><br></div><div><br></div><div><br></div><div><br></div>
+      <div class="container">
+          <div class="row align-items-center flex-row-reverse">
+            {% if user.profile.image %}
+              <div class="col-lg-6">
+                  <div class="about-avatar">
+                      <img src="{{user.profile.image.url}}" title="" alt="Profile Picture" style="height: 280px; width: 250px; border-radius: 20px; margin-left: 90px;">
+                  </div>
+              </div>
+            {% else %}
+              <div class="col-lg-6">
+                <div class="about-avatar">
+                    <img src="{% static 'assets/img/pp.jpg' %}" title="" alt="Profile Picture" style="height: 280px; width: 250px; border-radius: 20px; margin-left: 90px;">
+                </div>
+              </div>
+            {% endif %}
+              <div class="col-lg-6">
+                  <div class="about-text go-to">
+                    <form method = "post" action = "{% url 'profile' %}">
+                        <table class = "table table-borderedS">
+                            {% csrf_token %}
+                            {{ form | crispy }}
+                            <tr>
+                                <td colspan="2">
+                                    <button type="submit">Save changes</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                    
+                          </div>
+              </div>
+          </div>
+      </div>
+    </div>
+    <div><br></div><div><br></div><div><br></div><div><br></div>
+  </section>
+
+  <script>
+    function updateDateTime() {
+    const datetimeElement = document.getElementById('datetime');
+    const now = new Date();
+    const options = { weekday: 'short', year: 'numeric', month: 'numeric', day: 'numeric' };
+    const formattedDate = now.toLocaleDateString('en-US', options);
+    datetimeElement.textContent = formattedDate;
+    }
+
+    // Initial call to set the date and time
+    updateDateTime();
+
+    // Update the date and time every second
+    setInterval(updateDateTime, 1000);
+    </script>
+  
+{% endblock %}

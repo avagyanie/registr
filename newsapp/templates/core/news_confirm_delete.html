@@ -1,0 +1,39 @@
+{% extends 'base_home.html' %} {% load static %}
+{% block bodycontent %}
+<div><br></div><div><br></div><div><br></div><div><br></div><div><br></div>
+<div class="section-header d-flex justify-content-between align-items-center mb-5">
+    <h2>News Delete PAGE</h2>
+</div>
+<div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div>
+<div class="d-flex justify-content-center">
+    <form method="post">
+        {% csrf_token %}
+        <h2>Delete News</h2>
+        <h4>Are you sure that you want to delete "{{ news.id }}"?</h4>
+        <p class="form-buttons">
+            <input type="submit" class="button-74" value="Delete" />
+            <a href="{% url 'my_news' %}" class="button-74">Cancel</a>
+        </p>
+    </form>
+</div>
+<br> 
+<br> 
+<div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div>
+
+<script>
+    function updateDateTime() {
+    const datetimeElement = document.getElementById('datetime');
+    const now = new Date();
+    const options = { weekday: 'short', year: 'numeric', month: 'numeric', day: 'numeric' };
+    const formattedDate = now.toLocaleDateString('en-US', options);
+    datetimeElement.textContent = formattedDate;
+    }
+
+    // Initial call to set the date and time
+    updateDateTime();
+
+    // Update the date and time every second
+    setInterval(updateDateTime, 1000);
+    </script>
+
+{% endblock %}

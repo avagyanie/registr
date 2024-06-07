@@ -1,0 +1,35 @@
+{% extends 'base_home.html' %}
+{% load static %}
+{% block bodycontent %}
+{% load pagination_tags %}
+
+    
+<div><br></div>
+    <form method="post" class="card">
+        <h1>Subscribe to Our Newsletter</h1>
+        <p>Stay up-to-date with our latest news and updates by subscribing to our newsletter.</p>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="button-74">Subscribe</button>
+        <div><br></div>
+    </form>
+
+<div><br></div>
+
+<script>
+    function updateDateTime() {
+    const datetimeElement = document.getElementById('datetime');
+    const now = new Date();
+    const options = { weekday: 'short', year: 'numeric', month: 'numeric', day: 'numeric' };
+    const formattedDate = now.toLocaleDateString('en-US', options);
+    datetimeElement.textContent = formattedDate;
+    }
+
+    // Initial call to set the date and time
+    updateDateTime();
+
+    // Update the date and time every second
+    setInterval(updateDateTime, 1000);
+    </script>
+
+{% endblock %}

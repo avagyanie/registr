@@ -1,0 +1,85 @@
+{% extends 'base_home.html' %} {% load static %}
+{% block bodycontent %}
+{% load crispy_forms_tags %}
+{% load pagination_tags %}
+
+
+<section id="posts" class="posts">
+    <div class="container" data-aos="fade-up">
+        <div class="post-entry-1 lg">
+          <a type="button" class="button-74" href="{% url 'create_news' %}" style="padding: 8px;">Create News</a>
+          <div><br></div>
+          {% if news %}
+          {% for new in news %}
+              <div class="post-entry-1">
+                <a href="{% url 'news_details' new.id %}">
+                  <img src="{{new.image.url}}" alt="" class="img-details">
+                </a>
+                <div class="post-meta">
+                    <span class="date">{{new.get_news_type_display}}</span> 
+                    <span class="mx-1">&bullet;</span> 
+                    <span>{{new.date}}</span>
+                </div>
+                <h2 style="font-size: 30px;"><a href="{% url 'news_details' new.id %}">{{new.title}}</a></h2>
+                <span><a type="button" class="btn btn-primary" href="{% url 'news_details' new.id %}"><i
+                  class="far fa-eye"></i></a>
+                <a type="button" class="btn btn-primary" href="{% url 'my_news_update' new.id %}"><i
+                  class="fas fa-edit"></i></a>
+                <a type="button" class="btn btn-primary" href="{% url 'my_news_delete' new.id %}"><i
+                  class="far fa-trash-alt"></i></a></span>
+              </div>
+              <hr>
+              
+          {% endfor %}
+          {% else %}
+          <div><br></div><div><br></div>
+          <h3>You have no posts yet.</h3>
+          <div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div>
+          {% endif %}
+        </div>
+    </div>
+  </section> <!-- End Post Grid Section -->
+  
+  {% if is_paginated %}
+  <nav aria-label="Page navigation example" class="d-flex justify-content-center pt-3">
+    <ul class="pagination">
+      {% if page_obj.has_previous %}
+        <li style="margin-right: 14px;"><a class="pagination-link" href="?{% url_replace request 'page' page_obj.previous_page_number %}">Prev</a></li>
+      {% else %}
+        <li style="margin-right: 14px;" class="disabled"><span>Prev</span></li>
+      {% endif %}
+      
+      {% for i in page_obj.paginator.page_range %}
+        {% if page_obj.number == i %}
+            <li class="active"><span class="active-page" style="margin-right: 14px;">{{ i }} <span class="sr-only">(current)</span></span></li>
+        {% else %}
+            <li><a href="?{% url_replace request 'page' i %}" class="pagination-link" style="margin-right: 14px;">{{ i }}</a></li>
+        {% endif %}
+      {% endfor %}
+      
+      {% if page_obj.has_next %}
+        <li style="margin-left: 10px;"><a href="?{% url_replace request 'page' page_obj.next_page_number %}" class="pagination-link" style="margin-right: 14px;">Next</a></li>
+      {% else %}
+        <li style="margin-right: 14px;" class="disabled"><span>Next</span></li>
+      {% endif %}
+    </ul>
+  </nav>
+{% endif %}
+
+<script>
+  function updateDateTime() {
+  const datetimeElement = document.getElementById('datetime');
+  const now = new Date();
+  const options = { weekday: 'short', year: 'numeric', month: 'numeric', day: 'numeric' };
+  const formattedDate = now.toLocaleDateString('en-US', options);
+  datetimeElement.textContent = formattedDate;
+  }
+
+  // Initial call to set the date and time
+  updateDateTime();
+
+  // Update the date and time every second
+  setInterval(updateDateTime, 1000);
+  </script>
+
+{% endblock %}

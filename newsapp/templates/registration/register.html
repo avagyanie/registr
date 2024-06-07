@@ -1,0 +1,125 @@
+{% extends 'base_home.html' %}
+{% block bodycontent %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+<div><br></div>
+<section>
+  <div class="container" data-aos="fade-up">
+      <div class="row">
+          <div class="col-lg-25 mb-8">
+
+              <div class="container">
+                  <div class="row justify-content-center">
+                      <div class="col-md-17">
+                          <div class="card-group mb-5">
+                              <div class="card p-8">
+
+                                  <div class="card-body">
+                                      <div class="text-center mb-8">
+                                          <h3>Register for Free</h3>
+                                      </div>
+                                      <div><br></div>
+
+                                      <div class="input-group mb-3 justify-content-center">
+
+                                          <form method="POST" role="form">
+                                              {% csrf_token %}
+
+                                              <div class="input-group mb-3">
+                                                  <input type="text" name="first_name" class="form-control"
+                                                      id="first_name" placeholder="First Name"
+                                                      value="{{ form.first_name.value|default_if_none:'' }}">
+                                                  {% for error in form.first_name.errors %}
+                                                      <div class="text-danger">{{ error }}</div>
+                                                  {% endfor %}
+                                              </div>
+
+                                              <div class="input-group mb-3">
+                                                  <input type="text" name="last_name" class="form-control"
+                                                      id="last_name" placeholder="Last Name"
+                                                      value="{{ form.last_name.value|default_if_none:'' }}">
+                                                  {% for error in form.last_name.errors %}
+                                                      <div class="text-danger">{{ error }}</div>
+                                                  {% endfor %}
+                                              </div>
+
+                                              <div class="input-group mb-3">
+                                                  <input type="email" name="email" class="form-control" id="email"
+                                                      placeholder="Email" value="{{ form.email.value|default_if_none:'' }}">
+                                                  {% for error in form.email.errors %}
+                                                      <div class="text-danger">{{ error }}</div>
+                                                  {% endfor %}
+                                              </div>
+
+                                              <div class="input-group mb-3">
+                                                <input type="text" name="tel" class="form-control"
+                                                    id="tel" placeholder="Telephone Number"
+                                                    value="{{ form.tel.value|default_if_none:'' }}">
+                                                {% for error in form.tel.errors %}
+                                                    <div class="text-danger">{{ error }}</div>
+                                                {% endfor %}
+                                              </div>
+
+                                              <div class="input-group mb-4">
+                                                  <input type="password" name="password1" class="form-control"
+                                                      id="password1" placeholder="Password">
+                                                  {% for error in form.password1.errors %}
+                                                      <div class="text-danger">{{ error }}</div>
+                                                  {% endfor %}
+                                              </div>
+
+                                              <div class="input-group mb-4">
+                                                  <input type="password" name="password2" class="form-control"
+                                                      id="password2" placeholder="Confirm Password">
+                                                  {% for error in form.password2.errors %}
+                                                      <div class="text-danger">{{ error }}</div>
+                                                  {% endfor %}
+                                              </div>
+
+                                              <div class="checkbox mt-5">
+                                                  <input type="checkbox" id="signupCheck" required />
+                                                  <label for="signupCheck">
+                                                    <b>I accept all <a href="{% url 'terms_conditions' %}" onclick="openTermsModal()" target="_blank">Terms & Conditions</a></b>
+                                                </label>
+                                              </div>
+                                              <br>
+                                              <p class="text-center">
+                                                <button type="submit" class="button-74"/>
+                                                Register
+                                                </button>
+                                              </p>
+                                          </form>
+                                      </div>
+
+                                  </div>
+                              </div>
+
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  </div>
+
+</section>
+
+<script>
+    function updateDateTime() {
+    const datetimeElement = document.getElementById('datetime');
+    const now = new Date();
+    const options = { weekday: 'short', year: 'numeric', month: 'numeric', day: 'numeric' };
+    const formattedDate = now.toLocaleDateString('en-US', options);
+    datetimeElement.textContent = formattedDate;
+    }
+
+    // Initial call to set the date and time
+    updateDateTime();
+
+    // Update the date and time every second
+    setInterval(updateDateTime, 1000);
+    </script>
+
+{% endblock %}
